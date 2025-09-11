@@ -19,3 +19,6 @@ configMapGenerator:
   - name: mariadb-config
     envs:
       - mariadb.properties
+
+generatorOptions:
+  disableNameSuffixHash: true
