@@ -1,0 +1,21 @@
+namespace: drupal
+
+resources:
+  - mariadb-master.yaml
+
+labels:
+  - pairs:
+      app: drupal
+    includeSelectors: true
+    includeTemplates: true
+
+namePrefix:
+  drupal-
+
+nameSuffix:
+  -v01
+
+configMapGenerator:
+  - name: mariadb-config
+    envs:
+      - mariadb.properties
