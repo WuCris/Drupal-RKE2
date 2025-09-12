@@ -2,15 +2,15 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: mariadb-master
+  name: mariadb-slave
 
 spec:
   clusterIP: None
   ports:
   - port: 3306
-    name: mariadb-master
+    name: mariadb-slave
   selector:
-    app: mariadb-master
+    app: mariadb-slave
 
 ---
 
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 
 metadata:
-  name: mariadb-master
+  name: mariadb-slave
 
 spec:
   storageClassName: csi-rbd-sc
@@ -34,31 +34,31 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: mariadb-master
+  name: mariadb-slave
   labels:
-    process: mariadb-master
+    process: mariadb-slave
 
 spec:
   replicas: 1
 
   selector:
     matchLabels:
-      process: mariadb-master
+      process: mariadb-slave
 
   template:
     metadata:
       labels:
-        process: mariadb-master
+        process: mariadb-slave
   
     spec:
 
       volumes:
-      - name: mariadb-master
+      - name: mariadb-slave
         persistentVolumeClaim:
-          claimName: mariadb-master
+          claimName: mariadb-slave
 
       containers:
-      - name: mariadb-master
+      - name: mariadb-slave
         image: mariadb:12.0
         imagePullPolicy: Always
 
@@ -66,7 +66,7 @@ spec:
         - containerPort: 3306
 
         volumeMounts:
-        - name: mariadb-master
+        - name: mariadb-slave
           mountPath: /var/lib/mysql
 
         env:
@@ -76,23 +76,23 @@ spec:
               name: mariadb-passwords
               key: MARIADB_ROOT_PASSWORD
 
-        - name: MARIADB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mariadb-passwords
-              key: MARIADB_PASSWORD
-
         - name: MARIADB_REPLICATION_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mariadb-passwords
               key: MARIADB_REPLICATION_PASSWORD
 
+        - name: MARIADB_MASTER_HOST
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-passwords
+              key: MARIADB_MASTER_HOST
+
         envFrom:
           - configMapRef:
               name: mariadb-config 
 
-        args: ["--server_id=1", "--log-bin", "--log-basename=master1", "--binlog-format=mixed"]
+        args: ["--server-id=2", "--log-basename=master1", "--binlog-format=mixed", "--read-only"]
 
       tolerations:
       - key: node.kubernetes.io/not-ready
