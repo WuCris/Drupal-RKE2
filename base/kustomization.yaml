@@ -2,6 +2,7 @@ namespace: drupal
 
 resources:
   - mariadb-master.yaml
+  - mariadb-slave.yaml
 
 labels:
   - pairs:
@@ -16,9 +17,13 @@ nameSuffix:
   -v01
 
 configMapGenerator:
-  - name: mariadb-config
+  - name: mariadb-master-config
     envs:
-      - mariadb.properties
+      - mariadb-master.properties
+  - name: mariadb-slave-config
+    envs:
+      - mariadb-slave.properties
+
 
 generatorOptions:
   disableNameSuffixHash: true
