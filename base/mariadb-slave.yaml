@@ -10,7 +10,7 @@ spec:
   - port: 3306
     name: mariadb-slave
   selector:
-    app: mariadb-slave
+    process: mariadb-slave
 
 ---
 
@@ -59,7 +59,7 @@ spec:
 
       containers:
       - name: mariadb-slave
-        image: mariadb:11.2
+        image: mariadb:12.0
         imagePullPolicy: Always
 
         ports:
