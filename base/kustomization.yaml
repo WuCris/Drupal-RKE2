@@ -4,6 +4,7 @@ resources:
   - mariadb/mariadb-master.yaml
   - mariadb/mariadb-slave.yaml
   - maxscale/maxscale.yaml
+  - maxscale/admin-ingress.yaml
 
 labels:
   - pairs:

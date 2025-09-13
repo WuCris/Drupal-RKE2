@@ -11,6 +11,8 @@ spec:
     name: maxscale-readwrite
   - port: 4008
     name: maxscale-readonly
+  - port: 8989
+    name: maxscale-adminpanel
   selector:
     process: maxscale
 
@@ -43,20 +45,16 @@ spec:
         imagePullPolicy: Always
 
         ports:
-        - containerPort: 3306
+        - containerPort: 4008
+        - containerPort: 4006
+        - containerPort: 8989
 
         env:
-        - name: MARIADB_ROOT_PASSWORD
+        - name: MAXSCALE_PASS
           valueFrom:
             secretKeyRef:
               name: mariadb-passwords
-              key: MARIADB_ROOT_PASSWORD
-
-        - name: MARIADB_REPLICATION_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mariadb-passwords
-              key: MARIADB_REPLICATION_PASSWORD
+              key: MAXSCALE_PASS
 
         envFrom:
           - configMapRef:

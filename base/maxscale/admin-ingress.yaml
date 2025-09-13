@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: http-ingress
+spec:
+  rules:
+  - host: "maxscale.drupal.example.lan"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: maxscale
+            port:
+              number: 8989
