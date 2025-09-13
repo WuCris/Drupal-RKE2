@@ -7,8 +7,10 @@ metadata:
 spec:
   clusterIP: None
   ports:
-  - port: 3306
-    name: maxscale
+  - port: 4006
+    name: maxscale-readwrite
+  - port: 4008
+    name: maxscale-readonly
   selector:
     process: maxscale
 
