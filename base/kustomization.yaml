@@ -1,8 +1,8 @@
 namespace: drupal
 
 resources:
-  - mariadb-master.yaml
-  - mariadb-slave.yaml
+  - mariadb/mariadb-master.yaml
+  - mariadb/mariadb-slave.yaml
 
 labels:
   - pairs:
