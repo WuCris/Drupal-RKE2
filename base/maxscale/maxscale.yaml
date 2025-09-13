@@ -39,15 +39,11 @@ spec:
     spec:
       containers:
       - name: maxscale
-        image: maxscale:24.02
+        image: wucris/mariadb-maxscale:24.02
         imagePullPolicy: Always
 
         ports:
         - containerPort: 3306
-
-        volumeMounts:
-        - name: maxscale
-          mountPath: /var/lib/mysql
 
         env:
         - name: MARIADB_ROOT_PASSWORD

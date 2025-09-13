@@ -59,7 +59,7 @@ spec:
 
       containers:
       - name: mariadb-master
-        image: mariadb:12.0
+        image: wucris/mariadb:12.0
         imagePullPolicy: Always
 
         ports:
@@ -87,6 +87,12 @@ spec:
             secretKeyRef:
               name: mariadb-passwords
               key: MARIADB_REPLICATION_PASSWORD
+
+        - name: MAXSCALE_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-passwords
+              key: MAXSCALE_PASS
 
         envFrom:
           - configMapRef:
